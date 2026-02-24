@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { resume, NAV } from "../data";
+import BackButton from "../components/BackButton";
 
 const RADIUS = 220;
 const OFFSET_X = -36;

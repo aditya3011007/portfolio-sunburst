@@ -24,6 +24,17 @@ export const resume = {
     ],
     experience: [
         {
+            company: "SUNY RF",
+            role: "Research Aide (AI & System Engineering)",
+            period: "Jan 2025 – Present",
+            location: "Buffalo, NY",
+            bullets: [
+                "Developing and training unsupervised learning models to detect log anomalies, contributing to automated system reliability.",
+                "Preparing and processing large-scale datasets, performing feature engineering to ensure high data quality for model inference.",
+                "Evaluating model accuracy and optimizing pipelines to handle complex data inputs, ensuring scalability in production-like environments."
+            ],
+        },
+        {
             company: "HackerShala",
             role: "Software Engineering Intern",
             period: "Aug 2022 – Sep 2022",
