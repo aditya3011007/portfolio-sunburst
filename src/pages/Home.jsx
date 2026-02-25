@@ -10,7 +10,7 @@ const OFFSET_X = -36;
 const RAY_LEN = RADIUS - 40;
 
 // --- MOBILE CONSTANTS ---
-const MOBILE_RADIUS = 125;
+const MOBILE_RADIUS = 135;
 
 const rayColors = [
     "rgba(251, 191, 36, 1)",  // Amber Gold
@@ -72,7 +72,6 @@ export default function Home() {
         const { x, y } = info.offset;
         let foundIdx = null;
 
-        // Check distance between dragged sun and each orbiting tab
         for (let i = 0; i < mobileTargets.length; i++) {
             const target = mobileTargets[i];
             const distance = Math.hypot(target.x - x, target.y - y);
@@ -88,7 +87,6 @@ export default function Home() {
 
     const handleMobileDragEnd = () => {
         setIsDragging(false);
-        // If the sun was released over a lit-up target, warp to that page!
         if (activeMobileTarget !== null) {
             navigate(mobileTargets[activeMobileTarget].path);
         }
@@ -112,7 +110,7 @@ export default function Home() {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* 2. NAME ELEMENT (Shifted up on Mobile, Centered on Desktop) */}
+            {/* 2. NAME ELEMENT */}
             <motion.div
                 style={{ x: parallaxX, y: parallaxY }}
                 className="z-20 absolute top-[12%] md:static md:top-auto flex flex-col items-center pointer-events-none"
@@ -193,36 +191,43 @@ export default function Home() {
             {/* ========================================== */}
             {/* 4. MOBILE VIEW: DRAG-TO-NAVIGATE HUD */}
             {/* ========================================== */}
-            <div className="absolute inset-0 z-30 md:hidden flex flex-col items-center justify-center pt-20 overflow-hidden pointer-events-none">
-                <div className="relative w-full max-w-[320px] aspect-square flex items-center justify-center pointer-events-auto">
+            <div className="absolute inset-0 z-30 md:hidden flex flex-col items-center justify-center pt-10 overflow-hidden pointer-events-none">
+                <div className="relative w-full h-full flex items-center justify-center pointer-events-auto">
 
-                    {/* A. The Orbiting Targets (Sunrays) */}
+                    {/* A1. Independent Connecting Rays */}
+                    {mobileTargets.map((target, i) => {
+                        const isActive = activeMobileTarget === i;
+                        return (
+                            <div
+                                key={`ray-${i}`}
+                                className="absolute left-1/2 top-1/2 h-[1px] origin-left rounded-full transition-all duration-300 z-10 pointer-events-none"
+                                style={{
+                                    width: `${MOBILE_RADIUS - 45}px`, // Stop just before the tab
+                                    transform: `translateY(-50%) rotate(${target.angle}deg) translateX(45px)`, // Start just outside the core
+                                    backgroundImage: isActive
+                                        ? `linear-gradient(to right, ${target.color}, transparent)`
+                                        : `linear-gradient(to right, rgba(255,255,255,0.1), transparent)`,
+                                    boxShadow: isActive ? `0 0 15px ${target.color}` : "none",
+                                }}
+                            />
+                        );
+                    })}
+
+                    {/* A2. The Orbiting Targets (Tabs) */}
                     {mobileTargets.map((target, i) => {
                         const isActive = activeMobileTarget === i;
                         return (
                             <motion.div
                                 key={target.path}
-                                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
-                                animate={{ x: target.x, y: target.y }}
+                                className="absolute z-20 flex items-center justify-center"
+                                style={{ left: "50%", top: "50%" }}
+                                animate={{ x: `calc(-50% + ${target.x}px)`, y: `calc(-50% + ${target.y}px)` }}
                                 transition={{ type: "spring", stiffness: 100, damping: 20 }}
                             >
-                                {/* Visual Ray connecting center to tab */}
-                                <div
-                                    className="absolute h-[1px] origin-left rounded-full transition-all duration-300"
-                                    style={{
-                                        width: `${MOBILE_RADIUS - 20}px`,
-                                        transform: `rotate(${target.angle}deg) translateX(20px)`,
-                                        backgroundImage: isActive
-                                            ? `linear-gradient(to right, ${target.color}, transparent)`
-                                            : `linear-gradient(to right, rgba(255,255,255,0.1), transparent)`,
-                                    }}
-                                />
-
-                                {/* Target Capsule */}
                                 <motion.div
                                     animate={{
-                                        scale: isActive ? 1.2 : 1,
-                                        backgroundColor: isActive ? target.color.replace('1)', '0.3)') : "rgba(255,255,255,0.05)",
+                                        scale: isActive ? 1.15 : 1,
+                                        backgroundColor: isActive ? target.color.replace('1)', '0.25)') : "rgba(255,255,255,0.05)",
                                         borderColor: isActive ? target.color : "rgba(255,255,255,0.15)",
                                         boxShadow: isActive ? `0 0 25px ${target.color}` : "0 0 0px transparent"
                                     }}
@@ -236,22 +241,25 @@ export default function Home() {
                         );
                     })}
 
-                    {/* B. The Draggable Sun Core */}
+                    {/* B. The Draggable Sun Core (Hardcoded positioning to prevent physics conflicts) */}
                     <motion.div
                         drag
-                        dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }} // Forces snap back to center
-                        dragElastic={1} // Allows unhindered dragging 
+                        dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
+                        dragElastic={1}
                         onDragStart={() => setIsDragging(true)}
                         onDrag={handleMobileDrag}
                         onDragEnd={handleMobileDragEnd}
                         whileDrag={{ scale: 0.9, cursor: "grabbing" }}
-                        className="absolute z-50 w-20 h-20 rounded-full flex items-center justify-center cursor-grab touch-none"
+                        className="absolute z-50 rounded-full flex items-center justify-center cursor-grab touch-none"
                         style={{
+                            width: 80,
+                            height: 80,
+                            left: "calc(50% - 40px)",
+                            top: "calc(50% - 40px)",
                             background: "radial-gradient(circle, rgba(236,72,153,0.9) 0%, rgba(139,92,246,0.8) 100%)",
                             boxShadow: "0 0 30px rgba(236, 72, 153, 0.6), inset 0 0 15px rgba(255,255,255,0.4)",
                         }}
                     >
-                        {/* Core inner pulse effect */}
                         <motion.div
                             animate={{ scale: [1, 1.2, 1] }}
                             transition={{ duration: 2, repeat: Infinity }}
@@ -266,7 +274,7 @@ export default function Home() {
                 {/* C. Subtle User Guide Instruction */}
                 <motion.div
                     animate={{ opacity: isDragging ? 0 : 0.6 }}
-                    className="absolute bottom-[15%] text-center px-6"
+                    className="absolute bottom-[10%] text-center px-6"
                 >
                     <p className="text-white text-[10px] uppercase font-mono tracking-[0.2em]">
                         Drag the core to explore
