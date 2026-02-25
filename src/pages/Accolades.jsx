@@ -1,7 +1,6 @@
 // src/pages/Accolades.jsx
 import React from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { Link } from "react-router-dom";
 import { resume } from "../data";
 import BackButton from "../components/BackButton";
 
@@ -18,14 +17,13 @@ export default function Accolades() {
         <motion.section
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onMouseMove={handleMouseMove}
-            // Extremely dark overlay to make the flashlight pop
-            className="min-h-screen py-24 px-6 flex flex-col items-center justify-center bg-black/60 overflow-hidden relative"
+            className="min-h-screen py-24 px-6 flex flex-col items-center justify-center bg-black/80 md:bg-black/60 overflow-hidden relative"
         >
             <BackButton />
 
-            {/* THE FLASHLIGHT EFFECT */}
+            {/* THE FLASHLIGHT EFFECT (Disabled on mobile with hidden md:block) */}
             <motion.div
-                className="pointer-events-none fixed inset-0 z-20 transition-opacity duration-300"
+                className="pointer-events-none fixed inset-0 z-20 transition-opacity duration-300 hidden md:block"
                 style={{
                     background: useMotionTemplate`
             radial-gradient(
@@ -38,7 +36,7 @@ export default function Accolades() {
             />
 
             <div className="relative z-10 w-full max-w-3xl">
-                <h2 className="text-6xl font-black text-amber-500/20 mb-16 text-center tracking-widest uppercase">
+                <h2 className="text-4xl md:text-6xl font-black text-amber-500/40 md:text-amber-500/20 mb-12 md:mb-16 text-center tracking-widest uppercase">
                     Trophies
                 </h2>
 
@@ -46,10 +44,10 @@ export default function Accolades() {
                     {resume.accolades.map((a, i) => (
                         <motion.div
                             key={i}
-                            initial={{ x: 100, opacity: 0 }}
+                            initial={{ x: 50, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: i * 0.2, type: "spring", stiffness: 80 }}
-                            className="relative group p-6 rounded-2xl border border-amber-900/30 bg-black/40 overflow-hidden"
+                            className="relative group p-6 rounded-2xl border border-amber-500/30 md:border-amber-900/30 bg-black/40 overflow-hidden"
                         >
                             {/* Internal Gold Shimmer */}
                             <motion.div
@@ -58,12 +56,12 @@ export default function Accolades() {
                                 transition={{ duration: 0.8, ease: "easeInOut" }}
                             />
 
-                            <div className="flex items-center gap-6">
-                                <div className="w-16 h-16 rounded-full bg-amber-950 flex items-center justify-center border border-amber-500/30 group-hover:scale-110 group-hover:border-amber-400 group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300">
-                                    <span className="text-3xl">🏆</span>
+                            <div className="flex items-center gap-4 md:gap-6">
+                                <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-full bg-amber-950 flex items-center justify-center border border-amber-400 md:border-amber-500/30 md:group-hover:scale-110 md:group-hover:border-amber-400 md:group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300">
+                                    <span className="text-2xl md:text-3xl">🏆</span>
                                 </div>
-                                {/* The text is dim by default, but brightens immensely when the flashlight is near (hover simulated) */}
-                                <p className="text-xl text-amber-100/30 font-medium leading-relaxed group-hover:text-amber-200 transition-colors duration-500">
+                                {/* Text is bright on mobile (text-amber-100), dim on desktop until hover (md:text-amber-100/30) */}
+                                <p className="text-lg md:text-xl text-amber-100 md:text-amber-100/30 font-medium leading-relaxed md:group-hover:text-amber-200 transition-colors duration-500">
                                     {a}
                                 </p>
                             </div>

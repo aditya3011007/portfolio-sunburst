@@ -6,25 +6,17 @@ import { Link } from "react-router-dom";
 export default function BackButton() {
     const [isHovered, setIsHovered] = useState(false);
 
-    // Magnetic physics state
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const mouseXSpring = useSpring(x, { stiffness: 200, damping: 15 });
-    const mouseYSpring = useSpring(y, { stiffness: 200, damping: 15 });
+    const mouseXSpring = useSpring(x, { stiffness: 200, damping: 20 });
+    const mouseYSpring = useSpring(y, { stiffness: 200, damping: 20 });
 
     const handleMouseMove = (e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        // The divisor dictates the magnetic pull strength
-        x.set((e.clientX - centerX) / 2.5);
-        y.set((e.clientY - centerY) / 2.5);
-    };
-
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-        setIsHovered(false);
+        x.set((e.clientX - centerX) / 3);
+        y.set((e.clientY - centerY) / 3);
     };
 
     return (
@@ -33,35 +25,59 @@ export default function BackButton() {
             style={{ x: mouseXSpring, y: mouseYSpring }}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={() => { x.set(0); y.set(0); setIsHovered(false); }}
         >
             <Link to="/">
                 <motion.div
                     layout
-                    className="flex items-center justify-start h-14 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:border-fuchsia-400/50 hover:bg-black/40 overflow-hidden cursor-pointer transition-colors"
-                    // Starts as a 56px perfect circle, expands to 180px pill
-                    animate={{ width: isHovered ? 180 : 56 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="flex items-center h-14 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full shadow-2xl hover:border-fuchsia-500/50 hover:bg-black/60 transition-colors cursor-pointer"
+                    animate={{ width: isHovered ? 200 : 70 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 >
-                    <div className="flex items-center gap-3 px-4 w-full h-full">
-                        {/* The Rotating Neon Star */}
-                        <motion.div
-                            className="w-6 h-6 shrink-0 flex items-center justify-center text-xl text-fuchsia-400 drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]"
-                            animate={{ rotate: isHovered ? 0 : 360 }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                        >
-                            ✦
-                        </motion.div>
+                    <div className="flex items-center px-4 w-full h-full relative">
 
-                        {/* The Hidden Text Reveal */}
+                        {/* THE VISUAL "BACK" INDICATOR */}
+                        <div className="flex items-center gap-2">
+                            <motion.div
+                                className="text-fuchsia-400 text-xl font-black"
+                                animate={{ x: isHovered ? -2 : 0 }}
+                            >
+                                ←
+                            </motion.div>
+
+                            {/* Vertical "BACK" text as part of the icon design */}
+                            {!isHovered && (
+                                <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="text-[10px] font-black text-white/40 leading-none uppercase tracking-tighter"
+                                    style={{ writingMode: 'vertical-lr' }}
+                                >
+                                    Back
+                                </motion.span>
+                            )}
+                        </div>
+
+                        {/* EXPANDED LABEL */}
                         <motion.span
-                            className="text-white font-bold tracking-wide whitespace-nowrap"
+                            className="ml-4 text-white font-bold tracking-[0.2em] text-[11px] uppercase whitespace-nowrap"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
                             transition={{ duration: 0.2 }}
                         >
                             Return to Hub
                         </motion.span>
+
+                        {/* Floating Energy Particle */}
+                        <motion.div
+                            animate={{
+                                opacity: isHovered ? [0, 1, 0] : 0,
+                                x: [0, 40, 80],
+                                y: [-10, 0, 10]
+                            }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                            className="absolute left-6 top-1/2 w-1 h-1 bg-fuchsia-400 rounded-full blur-[2px]"
+                        />
                     </div>
                 </motion.div>
             </Link>
