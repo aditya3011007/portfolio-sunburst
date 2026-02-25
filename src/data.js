@@ -38,7 +38,7 @@ export const resume = {
             company: "HackerShala",
             role: "Software Engineering Intern",
             period: "Aug 2022 – Sep 2022",
-            location: "Noida, UP",
+            location: "Noida, India",
             bullets: [
                 "Optimized React-based frontend architecture using HTML, CSS, and JavaScript to improve site responsiveness and reduce load times.",
                 "Built reusable React components for a dynamic navigation system, enhancing user interface scalability.",
@@ -49,7 +49,7 @@ export const resume = {
             company: "MACAWBER BEEKAY",
             role: "Software Engineering Intern",
             period: "Jun 2022 – Aug 2022",
-            location: "Noida, UP",
+            location: "Noida, India",
             bullets: [
                 "Managed and optimized relational database schemas to support backend functionalities.",
                 "Implemented attendance tracking systems, ensuring data integrity and reliable reporting.",
