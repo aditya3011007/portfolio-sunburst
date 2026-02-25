@@ -110,10 +110,10 @@ export default function Home() {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* 2. NAME ELEMENT */}
+            {/* 2. NAME & INSTRUCTION ELEMENT */}
             <motion.div
                 style={{ x: parallaxX, y: parallaxY }}
-                className="z-20 absolute top-[12%] md:static md:top-auto flex flex-col items-center pointer-events-none"
+                className="z-20 absolute top-[10%] md:static md:top-auto flex flex-col items-center pointer-events-none w-full px-4"
             >
                 <motion.h1
                     initial={{ scale: 0 }}
@@ -123,6 +123,25 @@ export default function Home() {
                 >
                     {resume.personal.name}
                 </motion.h1>
+
+                {/* MOBILE USER GUIDE - Centered under name, bold, and fades on drag */}
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: isDragging ? 0 : 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: isDragging ? 0 : 0.5 }}
+                    className="md:hidden mt-4 flex flex-col items-center text-center"
+                >
+                    <p className="text-white text-xs font-bold uppercase tracking-[0.15em] drop-shadow-lg bg-black/20 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
+                        Drag the center core to a page
+                    </p>
+                    <motion.div
+                        animate={{ y: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className="mt-2 text-fuchsia-400 text-sm drop-shadow-md"
+                    >
+                        ▼
+                    </motion.div>
+                </motion.div>
             </motion.div>
 
             {/* ========================================== */}
@@ -202,8 +221,8 @@ export default function Home() {
                                 key={`ray-${i}`}
                                 className="absolute left-1/2 top-1/2 h-[1px] origin-left rounded-full transition-all duration-300 z-10 pointer-events-none"
                                 style={{
-                                    width: `${MOBILE_RADIUS - 45}px`, // Stop just before the tab
-                                    transform: `translateY(-50%) rotate(${target.angle}deg) translateX(45px)`, // Start just outside the core
+                                    width: `${MOBILE_RADIUS - 45}px`,
+                                    transform: `translateY(-50%) rotate(${target.angle}deg) translateX(45px)`,
                                     backgroundImage: isActive
                                         ? `linear-gradient(to right, ${target.color}, transparent)`
                                         : `linear-gradient(to right, rgba(255,255,255,0.1), transparent)`,
@@ -241,7 +260,7 @@ export default function Home() {
                         );
                     })}
 
-                    {/* B. The Draggable Sun Core (Hardcoded positioning to prevent physics conflicts) */}
+                    {/* B. The Draggable Sun Core */}
                     <motion.div
                         drag
                         dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
@@ -270,23 +289,6 @@ export default function Home() {
                     </motion.div>
 
                 </div>
-
-                {/* C. Subtle User Guide Instruction */}
-                <motion.div
-                    animate={{ opacity: isDragging ? 0 : 0.6 }}
-                    className="absolute bottom-[10%] text-center px-6"
-                >
-                    <p className="text-white text-[10px] uppercase font-mono tracking-[0.2em]">
-                        Drag the core to explore
-                    </p>
-                    <motion.div
-                        animate={{ y: [0, 4, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="mt-2 text-fuchsia-400 text-[10px]"
-                    >
-                        ▼
-                    </motion.div>
-                </motion.div>
             </div>
 
         </motion.div>
