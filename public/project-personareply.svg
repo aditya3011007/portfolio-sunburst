@@ -1,0 +1,27 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#0A1022"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="938" cy="168" r="132" fill="#F472B6" fill-opacity="0.14"/>
+  <circle cx="292" cy="582" r="176" fill="#A78BFA" fill-opacity="0.12"/>
+  <rect x="110" y="116" width="408" height="470" rx="32" fill="#13172E" stroke="#F9A8D4" stroke-opacity="0.22"/>
+  <rect x="160" y="174" width="214" height="60" rx="22" fill="#F472B6" fill-opacity="0.16"/>
+  <rect x="160" y="262" width="290" height="60" rx="22" fill="#C084FC" fill-opacity="0.14"/>
+  <rect x="160" y="350" width="248" height="60" rx="22" fill="#E879F9" fill-opacity="0.12"/>
+  <rect x="160" y="438" width="314" height="60" rx="22" fill="#A855F7" fill-opacity="0.12"/>
+  <rect x="624" y="132" width="456" height="420" rx="36" fill="#151A34" stroke="#F9A8D4" stroke-opacity="0.24"/>
+  <circle cx="738" cy="242" r="54" fill="#FBCFE8" fill-opacity="0.12"/>
+  <circle cx="864" cy="242" r="54" fill="#DDD6FE" fill-opacity="0.12"/>
+  <circle cx="990" cy="242" r="54" fill="#F5D0FE" fill-opacity="0.12"/>
+  <path d="M792 242H810" stroke="#FBCFE8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M918 242H936" stroke="#DDD6FE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M944 384C888 432 790 432 734 384" stroke="#F9A8D4" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>
+  <rect x="700" y="486" width="298" height="18" rx="9" fill="#FCE7F3" fill-opacity="0.18"/>
+  <text x="110" y="620" fill="#FAE8FF" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="42" font-weight="700">PersonaReply</text>
+  <text x="110" y="660" fill="#F9A8D4" fill-opacity="0.78" font-family="Arial, sans-serif" font-size="26">Personalized AI Messaging Assistant</text>
+  <defs>
+    <linearGradient id="bg" x1="90" y1="84" x2="1093" y2="632" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#161731"/>
+      <stop offset="1" stop-color="#0D1022"/>
+    </linearGradient>
+  </defs>
+</svg>

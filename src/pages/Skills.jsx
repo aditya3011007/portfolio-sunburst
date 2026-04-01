@@ -1,60 +1,95 @@
 // src/pages/Skills.jsx
 import React from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { resume } from "../data";
+import { motion as Motion } from "framer-motion";
 import BackButton from "../components/BackButton";
+import { resume } from "../data";
 
 const pageVariants = {
-    initial: { opacity: 0 },
-    in: { opacity: 1 },
-    out: { opacity: 0 },
+    initial: { opacity: 0, y: 16 },
+    in: { opacity: 1, y: 0 },
+    out: { opacity: 0, y: -16 },
 };
+
+const skillHighlights = [
+    "AI / ML product engineering",
+    "Full-stack application development",
+    "Backend APIs and systems thinking",
+];
 
 export default function Skills() {
     return (
-        <motion.section
+        <Motion.section
             variants={pageVariants}
             initial="initial"
             animate="in"
             exit="out"
-            className="min-h-screen py-24 px-6 flex flex-col items-center justify-center overflow-hidden"
+            transition={{ duration: 0.4 }}
+            className="min-h-screen px-6 py-24 md:px-8"
         >
             <BackButton />
 
-            <div className="text-center z-10 mb-16">
-                <h2 className="text-5xl font-black text-white drop-shadow-lg tracking-tight mb-4">
-                    My <span className="text-cyan-400">Skills</span>
-                </h2>
-                <p className="text-cyan-200 animate-pulse text-sm font-mono">
-                    (Go ahead, grab and throw them around)
-                </p>
-            </div>
+            <div className="mx-auto w-full max-w-6xl">
+                <Motion.div
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="rounded-[2rem] border border-white/15 bg-slate-950/35 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.22)] backdrop-blur-2xl md:p-10"
+                >
+                    <div className="max-w-fit rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-cyan-100/80">
+                        Technical Strengths
+                    </div>
 
-            <motion.ul
-                className="relative z-10 flex flex-wrap justify-center gap-6 max-w-4xl"
-                transition={{ staggerChildren: 0.05 }}
-            >
-                {resume.skills.map((s, i) => (
-                    <motion.li
-                        key={s}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.05, type: "spring", stiffness: 200, damping: 15 }}
-
-                        // --- THE MAGIC PHYSICS PROPS ---
-                        drag
-                        dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                        dragElastic={0.4} // How far they can stretch it
-                        whileDrag={{ scale: 1.2, zIndex: 50, rotate: Math.random() * 20 - 10 }}
-                        whileHover={{ scale: 1.1, y: -5 }}
-
-                        className="px-8 py-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 text-lg font-bold text-white shadow-xl hover:bg-white/20 hover:border-cyan-400/80 hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] transition-colors cursor-grab active:cursor-grabbing"
+                    <h1
+                        className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl"
+                        style={{ fontFamily: "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif" }}
                     >
-                        {s}
-                    </motion.li>
-                ))}
-            </motion.ul>
-        </motion.section>
+                        Skills & Tools
+                    </h1>
+
+                    <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200/82 md:text-lg">
+                        A recruiter-focused overview of the technologies I use across machine learning, backend systems,
+                        full-stack application development, and deployment-oriented engineering.
+                    </p>
+
+                    <div className="mt-7 flex flex-wrap gap-3">
+                        {skillHighlights.map((item) => (
+                            <div
+                                key={item}
+                                className="rounded-full border border-cyan-300/16 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-50"
+                            >
+                                {item}
+                            </div>
+                        ))}
+                    </div>
+                </Motion.div>
+
+                <div className="mt-8 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+                    {resume.skillGroups.map((group, index) => (
+                        <Motion.div
+                            key={group.title}
+                            initial={{ opacity: 0, y: 18 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.08 + index * 0.06, duration: 0.4 }}
+                            className="rounded-[1.75rem] border border-white/12 bg-slate-950/30 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+                        >
+                            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-cyan-100/75">
+                                {group.title}
+                            </p>
+
+                            <div className="mt-5 flex flex-wrap gap-3">
+                                {group.items.map((skill) => (
+                                    <div
+                                        key={skill}
+                                        className="rounded-full border border-white/10 bg-white/5 px-3.5 py-2 text-sm text-slate-100/88 transition-all duration-300 hover:border-cyan-200/20 hover:bg-white/[0.08]"
+                                    >
+                                        {skill}
+                                    </div>
+                                ))}
+                            </div>
+                        </Motion.div>
+                    ))}
+                </div>
+            </div>
+        </Motion.section>
     );
 }

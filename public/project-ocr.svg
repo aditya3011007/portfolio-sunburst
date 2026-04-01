@@ -1,0 +1,24 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#0A1118"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="972" cy="174" r="132" fill="#94A3B8" fill-opacity="0.12"/>
+  <circle cx="242" cy="582" r="168" fill="#38BDF8" fill-opacity="0.08"/>
+  <rect x="114" y="142" width="450" height="414" rx="32" fill="#121D28" stroke="#CBD5E1" stroke-opacity="0.2"/>
+  <rect x="156" y="186" width="366" height="64" rx="18" fill="#E2E8F0" fill-opacity="0.1"/>
+  <text x="190" y="229" fill="#E2E8F0" fill-opacity="0.7" font-family="Arial, sans-serif" font-size="28" font-weight="600">Hola / こんにちは / नमस्ते</text>
+  <rect x="156" y="288" width="366" height="192" rx="24" fill="#0B1721"/>
+  <rect x="664" y="164" width="352" height="146" rx="28" fill="#14202C" stroke="#7DD3FC" stroke-opacity="0.22"/>
+  <rect x="700" y="206" width="192" height="20" rx="10" fill="#E0F2FE" fill-opacity="0.16"/>
+  <rect x="700" y="244" width="244" height="18" rx="9" fill="#E0F2FE" fill-opacity="0.1"/>
+  <rect x="664" y="360" width="352" height="170" rx="28" fill="#14202C" stroke="#CBD5E1" stroke-opacity="0.22"/>
+  <path d="M720 442H960" stroke="#CBD5E1" stroke-opacity="0.22" stroke-width="10" stroke-linecap="round"/>
+  <path d="M720 484H904" stroke="#CBD5E1" stroke-opacity="0.22" stroke-width="10" stroke-linecap="round"/>
+  <text x="114" y="612" fill="#F8FAFC" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="42" font-weight="700">OCR Translation Assistant</text>
+  <text x="114" y="652" fill="#CBD5E1" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="26">Multilingual OCR &amp; Translation Pipeline</text>
+  <defs>
+    <linearGradient id="bg" x1="84" y1="84" x2="1088" y2="628" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#162230"/>
+      <stop offset="1" stop-color="#0B131B"/>
+    </linearGradient>
+  </defs>
+</svg>

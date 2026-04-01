@@ -1,92 +1,87 @@
 // src/pages/Education.jsx
 import React from "react";
-import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { Link } from "react-router-dom";
-import { resume } from "../data";
+import { motion as Motion } from "framer-motion";
 import BackButton from "../components/BackButton";
+import { resume } from "../data";
 
-function EduCard({ item, index }) {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    function handleMouseMove({ currentTarget, clientX, clientY }) {
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    }
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.2, type: "spring", stiffness: 100 }}
-            onMouseMove={handleMouseMove}
-            className="relative group p-8 bg-black/30 backdrop-blur-md border border-emerald-900/50 rounded-3xl shadow-xl overflow-hidden cursor-crosshair"
-        >
-            {/* Holographic Mouse Flare */}
-            <motion.div
-                className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-500 group-hover:opacity-100"
-                style={{
-                    background: useMotionTemplate`
-            radial-gradient(
-              400px circle at ${mouseX}px ${mouseY}px,
-              rgba(16, 185, 129, 0.15),
-              transparent 80%
-            )
-          `,
-                }}
-            />
-
-            {/* Blueprint Grid Background */}
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/blueprint.png')] opacity-10 mix-blend-overlay" />
-
-            <div className="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
-                <div>
-                    <h3 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200 mb-2">
-                        {item.degree}
-                    </h3>
-                    <p className="text-lg text-emerald-100/80 font-medium tracking-wide uppercase text-sm">
-                        {item.institute}
-                    </p>
-                </div>
-
-                <div className="flex flex-col items-end gap-2">
-                    <span className="font-mono text-emerald-400 bg-emerald-950/50 px-4 py-2 rounded-xl border border-emerald-800/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] transition-shadow">
-                        GPA: {item.cgpa}
-                    </span>
-                    <span className="text-sm text-slate-400 font-mono">{item.period}</span>
-                </div>
-            </div>
-        </motion.div>
-    );
-}
+const pageVariants = {
+    initial: { opacity: 0, y: 16 },
+    in: { opacity: 1, y: 0 },
+    out: { opacity: 0, y: -16 },
+};
 
 export default function Education() {
     return (
-        <motion.section
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="min-h-screen py-24 px-6 flex flex-col items-center"
+        <Motion.section
+            variants={pageVariants}
+            initial="initial"
+            animate="in"
+            exit="out"
+            transition={{ duration: 0.4 }}
+            className="min-h-screen px-6 py-24 md:px-8"
         >
             <BackButton />
 
-            <h2 className="text-5xl font-black text-white drop-shadow-lg mb-16 tracking-tight z-10 uppercase">
-                <span className="text-emerald-400 border-b-4 border-emerald-400 pb-2">Education</span>
-            </h2>
+            <div className="mx-auto w-full max-w-5xl">
+                <Motion.div
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="rounded-[2rem] border border-white/15 bg-slate-950/35 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.22)] backdrop-blur-2xl md:p-10"
+                >
+                    <div className="max-w-fit rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-cyan-100/80">
+                        Academic Background
+                    </div>
 
-            <div className="relative z-10 w-full max-w-3xl space-y-10">
-                {/* Connecting Vertical Circuit Line */}
-                <div className="absolute left-10 md:left-12 top-10 bottom-10 w-[2px] bg-emerald-900 z-0">
-                    <motion.div
-                        className="w-full h-1/3 bg-emerald-400 shadow-[0_0_15px_#34d399]"
-                        animate={{ y: ["-100%", "300%"] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                    />
+                    <h1
+                        className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl"
+                        style={{ fontFamily: "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif" }}
+                    >
+                        Education
+                    </h1>
+
+                    <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200/82 md:text-lg">
+                        A strong academic foundation in computer science, supported by graduate study and a consistent record of technical performance.
+                    </p>
+                </Motion.div>
+
+                <div className="mt-8 space-y-6">
+                    {resume.education.map((item, index) => (
+                        <Motion.article
+                            key={item.institute}
+                            initial={{ opacity: 0, y: 18 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.08 + index * 0.06, duration: 0.4 }}
+                            className="rounded-[1.8rem] border border-white/12 bg-slate-950/30 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl md:p-7"
+                        >
+                            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                                <div className="max-w-2xl">
+                                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-cyan-100/72">
+                                        Institution
+                                    </p>
+                                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                                        {item.institute}
+                                    </h2>
+                                    <p className="mt-3 text-base leading-7 text-slate-200/82">
+                                        {item.degree}
+                                    </p>
+                                </div>
+
+                                <div className="grid gap-3 sm:grid-cols-2 md:min-w-[18rem]">
+                                    <div className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-4">
+                                        <p className="text-[0.64rem] uppercase tracking-[0.24em] text-white/55">Period</p>
+                                        <p className="mt-2 text-sm font-medium text-white/88">{item.period}</p>
+                                    </div>
+                                    <div className="rounded-[1.2rem] border border-cyan-300/14 bg-cyan-300/8 px-4 py-4">
+                                        <p className="text-[0.64rem] uppercase tracking-[0.24em] text-cyan-100/65">GPA / CGPA</p>
+                                        <p className="mt-2 text-sm font-medium text-white/90">{item.cgpa}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Motion.article>
+                    ))}
                 </div>
-
-                {resume.education.map((e, i) => (
-                    <EduCard key={e.institute} item={e} index={i} />
-                ))}
             </div>
-        </motion.section>
+        </Motion.section>
     );
 }

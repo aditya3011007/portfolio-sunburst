@@ -1,74 +1,78 @@
 // src/pages/Accolades.jsx
 import React from "react";
-import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { resume } from "../data";
+import { motion as Motion } from "framer-motion";
 import BackButton from "../components/BackButton";
+import { resume } from "../data";
+
+const pageVariants = {
+    initial: { opacity: 0, y: 16 },
+    in: { opacity: 1, y: 0 },
+    out: { opacity: 0, y: -16 },
+};
 
 export default function Accolades() {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    function handleMouseMove({ clientX, clientY }) {
-        mouseX.set(clientX);
-        mouseY.set(clientY);
-    }
-
     return (
-        <motion.section
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onMouseMove={handleMouseMove}
-            className="min-h-screen py-24 px-6 flex flex-col items-center justify-center bg-black/80 md:bg-black/60 overflow-hidden relative"
+        <Motion.section
+            variants={pageVariants}
+            initial="initial"
+            animate="in"
+            exit="out"
+            transition={{ duration: 0.4 }}
+            className="min-h-screen px-6 py-24 md:px-8"
         >
             <BackButton />
 
-            {/* THE FLASHLIGHT EFFECT (Disabled on mobile with hidden md:block) */}
-            <motion.div
-                className="pointer-events-none fixed inset-0 z-20 transition-opacity duration-300 hidden md:block"
-                style={{
-                    background: useMotionTemplate`
-            radial-gradient(
-              600px circle at ${mouseX}px ${mouseY}px,
-              rgba(251, 191, 36, 0.15),
-              rgba(0,0,0,0.8) 80%
-            )
-          `,
-                }}
-            />
+            <div className="mx-auto w-full max-w-5xl">
+                <Motion.div
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="rounded-[2rem] border border-white/15 bg-slate-950/35 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.22)] backdrop-blur-2xl md:p-10"
+                >
+                    <div className="max-w-fit rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-cyan-100/80">
+                        Recognition
+                    </div>
 
-            <div className="relative z-10 w-full max-w-3xl">
-                <h2 className="text-4xl md:text-6xl font-black text-amber-500/40 md:text-amber-500/20 mb-12 md:mb-16 text-center tracking-widest uppercase">
-                    Trophies
-                </h2>
+                    <h1
+                        className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl"
+                        style={{ fontFamily: "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif" }}
+                    >
+                        Accolades & Achievements
+                    </h1>
 
-                <div className="space-y-6">
-                    {resume.accolades.map((a, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ x: 50, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: i * 0.2, type: "spring", stiffness: 80 }}
-                            className="relative group p-6 rounded-2xl border border-amber-500/30 md:border-amber-900/30 bg-black/40 overflow-hidden"
+                    <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200/82 md:text-lg">
+                        A snapshot of competitive coding milestones and accomplishments that reflect consistency,
+                        problem-solving discipline, and technical curiosity.
+                    </p>
+                </Motion.div>
+
+                <div className="mt-8 grid gap-5">
+                    {resume.accolades.map((item, index) => (
+                        <Motion.div
+                            key={item}
+                            initial={{ opacity: 0, y: 18 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
+                            className="rounded-[1.75rem] border border-white/12 bg-slate-950/30 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl transition-all duration-300 hover:border-amber-200/25 hover:bg-white/[0.07]"
                         >
-                            {/* Internal Gold Shimmer */}
-                            <motion.div
-                                className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-300/10 to-transparent -translate-x-[100%]"
-                                whileHover={{ translateX: "100%" }}
-                                transition={{ duration: 0.8, ease: "easeInOut" }}
-                            />
-
-                            <div className="flex items-center gap-4 md:gap-6">
-                                <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-full bg-amber-950 flex items-center justify-center border border-amber-400 md:border-amber-500/30 md:group-hover:scale-110 md:group-hover:border-amber-400 md:group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300">
-                                    <span className="text-2xl md:text-3xl">🏆</span>
+                            <div className="flex items-start gap-5">
+                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-amber-200/18 bg-amber-300/10 text-2xl">
+                                    🏆
                                 </div>
-                                {/* Text is bright on mobile (text-amber-100), dim on desktop until hover (md:text-amber-100/30) */}
-                                <p className="text-lg md:text-xl text-amber-100 md:text-amber-100/30 font-medium leading-relaxed md:group-hover:text-amber-200 transition-colors duration-500">
-                                    {a}
-                                </p>
+
+                                <div className="flex-1">
+                                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-amber-100/65">
+                                        Achievement {index + 1}
+                                    </p>
+                                    <p className="mt-3 text-lg leading-8 text-slate-100/88 md:text-xl">
+                                        {item}
+                                    </p>
+                                </div>
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     ))}
                 </div>
             </div>
-        </motion.section>
+        </Motion.section>
     );
 }

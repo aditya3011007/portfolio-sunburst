@@ -1,0 +1,25 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#0B1021"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="998" cy="178" r="132" fill="#8B5CF6" fill-opacity="0.14"/>
+  <circle cx="246" cy="572" r="166" fill="#38BDF8" fill-opacity="0.1"/>
+  <rect x="112" y="144" width="410" height="420" rx="32" fill="#14192F" stroke="#C4B5FD" stroke-opacity="0.22"/>
+  <rect x="154" y="186" width="326" height="52" rx="18" fill="#E0E7FF" fill-opacity="0.12"/>
+  <rect x="154" y="266" width="326" height="52" rx="18" fill="#C4B5FD" fill-opacity="0.1"/>
+  <rect x="154" y="346" width="326" height="52" rx="18" fill="#7DD3FC" fill-opacity="0.09"/>
+  <rect x="154" y="426" width="326" height="92" rx="22" fill="#0B1728"/>
+  <rect x="618" y="148" width="430" height="420" rx="34" fill="#151B34" stroke="#A78BFA" stroke-opacity="0.24"/>
+  <rect x="676" y="200" width="314" height="248" rx="26" fill="#0D1426"/>
+  <path d="M732 390C776 320 888 320 932 390" stroke="#A78BFA" stroke-opacity="0.6" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="764" cy="270" r="28" fill="#A78BFA" fill-opacity="0.18"/>
+  <circle cx="884" cy="270" r="28" fill="#7DD3FC" fill-opacity="0.18"/>
+  <circle cx="824" cy="330" r="28" fill="#C4B5FD" fill-opacity="0.18"/>
+  <text x="112" y="612" fill="#F5F3FF" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="42" font-weight="700">Nexus Agentic Workspace</text>
+  <text x="112" y="652" fill="#C4B5FD" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="26">Document-Centered AI Workspace</text>
+  <defs>
+    <linearGradient id="bg" x1="84" y1="82" x2="1088" y2="632" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171A34"/>
+      <stop offset="1" stop-color="#0C1225"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,26 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#07111F"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="964" cy="188" r="128" fill="#38BDF8" fill-opacity="0.18"/>
+  <circle cx="268" cy="548" r="168" fill="#22D3EE" fill-opacity="0.12"/>
+  <rect x="120" y="130" width="420" height="300" rx="28" fill="#0F1E33" stroke="#7DD3FC" stroke-opacity="0.28"/>
+  <rect x="160" y="176" width="220" height="22" rx="11" fill="#7DD3FC" fill-opacity="0.24"/>
+  <rect x="160" y="226" width="330" height="18" rx="9" fill="#E0F2FE" fill-opacity="0.18"/>
+  <rect x="160" y="260" width="288" height="18" rx="9" fill="#E0F2FE" fill-opacity="0.12"/>
+  <rect x="160" y="316" width="120" height="52" rx="18" fill="#38BDF8" fill-opacity="0.2" stroke="#7DD3FC" stroke-opacity="0.35"/>
+  <rect x="644" y="126" width="400" height="460" rx="32" fill="#10223A" stroke="#7DD3FC" stroke-opacity="0.24"/>
+  <rect x="708" y="188" width="272" height="180" rx="24" fill="#0B1728"/>
+  <path d="M776 274C776 242.52 801.52 217 833 217H855C886.48 217 912 242.52 912 274V318H776V274Z" fill="#38BDF8" fill-opacity="0.18"/>
+  <rect x="789" y="336" width="126" height="18" rx="9" fill="#E0F2FE" fill-opacity="0.18"/>
+  <rect x="708" y="414" width="270" height="24" rx="12" fill="#7DD3FC" fill-opacity="0.12"/>
+  <rect x="708" y="452" width="210" height="24" rx="12" fill="#7DD3FC" fill-opacity="0.09"/>
+  <rect x="708" y="500" width="148" height="42" rx="18" fill="#14B8A6" fill-opacity="0.18" stroke="#2DD4BF" stroke-opacity="0.35"/>
+  <text x="120" y="556" fill="#E0F2FE" fill-opacity="0.88" font-family="Arial, sans-serif" font-size="42" font-weight="700">InterviewAceAI</text>
+  <text x="120" y="598" fill="#7DD3FC" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="26">AI Interview Coach</text>
+  <defs>
+    <linearGradient id="bg" x1="79" y1="84" x2="1084" y2="626" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10213A"/>
+      <stop offset="1" stop-color="#091423"/>
+    </linearGradient>
+  </defs>
+</svg>

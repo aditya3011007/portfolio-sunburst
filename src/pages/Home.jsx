@@ -1,296 +1,245 @@
 // src/pages/Home.jsx
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 import { resume, NAV } from "../data";
 
-// --- DESKTOP CONSTANTS ---
-const RADIUS = 220;
-const OFFSET_X = -36;
-const RAY_LEN = RADIUS - 40;
-
-// --- MOBILE CONSTANTS ---
-const MOBILE_RADIUS = 135;
-
-const rayColors = [
-    "rgba(251, 191, 36, 1)",  // Amber Gold
-    "rgba(56, 189, 248, 1)",  // Sky Blue
-    "rgba(52, 211, 153, 1)",  // Emerald
-    "rgba(244, 114, 182, 1)", // Pink
-    "rgba(167, 139, 250, 1)", // Purple
-    "rgba(250, 204, 21, 1)",  // Bright Yellow
-];
-
-// Pre-calculate mobile tab coordinates to detect drag collisions
-const mobileTargets = NAV.map((item, i) => {
-    const angle = (360 / NAV.length) * i - 90;
-    const rad = (angle * Math.PI) / 180;
-    return {
-        ...item,
-        angle,
-        x: Math.cos(rad) * MOBILE_RADIUS,
-        y: Math.sin(rad) * MOBILE_RADIUS,
-        color: rayColors[i]
-    };
-});
-
 const pageVariants = {
-    initial: { opacity: 0, scale: 0.95 },
+    initial: { opacity: 0, scale: 0.98 },
     in: { opacity: 1, scale: 1 },
-    out: { opacity: 0, scale: 1.05 },
+    out: { opacity: 0, scale: 1.02 },
 };
 
+const widgetMeta = {
+    "/personal": {
+        eyebrow: "About",
+        blurb: "Personal background, contact details, and resume access.",
+    },
+    "/education": {
+        eyebrow: "Study",
+        blurb: "Academic foundation, coursework, and current MS journey.",
+    },
+    "/projects": {
+        eyebrow: "Build",
+        blurb: "Selected software, AI, and systems projects I have worked on.",
+    },
+    "/skills": {
+        eyebrow: "Stack",
+        blurb: "Core technical strengths across AI, software, and tooling.",
+    },
+    "/experience": {
+        eyebrow: "Work",
+        blurb: "Professional roles, impact, and engineering experience.",
+    },
+    "/accolades": {
+        eyebrow: "Wins",
+        blurb: "Achievements, coding milestones, and recognition.",
+    },
+};
+
+const widgetColors = [
+    "from-amber-300/30 to-orange-300/10",
+    "from-sky-300/30 to-cyan-300/10",
+    "from-emerald-300/30 to-teal-300/10",
+    "from-fuchsia-300/25 to-pink-300/10",
+    "from-violet-300/30 to-purple-300/10",
+    "from-yellow-300/30 to-amber-300/10",
+];
+
+const widgetHoverStyles = [
+    {
+        border: "rgba(251, 191, 36, 0.55)",
+        background: "rgba(251, 191, 36, 0.12)",
+        shadow: "0 0 36px rgba(251, 191, 36, 0.18)",
+    },
+    {
+        border: "rgba(56, 189, 248, 0.55)",
+        background: "rgba(56, 189, 248, 0.12)",
+        shadow: "0 0 36px rgba(56, 189, 248, 0.18)",
+    },
+    {
+        border: "rgba(52, 211, 153, 0.55)",
+        background: "rgba(52, 211, 153, 0.12)",
+        shadow: "0 0 36px rgba(52, 211, 153, 0.18)",
+    },
+    {
+        border: "rgba(244, 114, 182, 0.55)",
+        background: "rgba(244, 114, 182, 0.12)",
+        shadow: "0 0 36px rgba(244, 114, 182, 0.18)",
+    },
+    {
+        border: "rgba(167, 139, 250, 0.55)",
+        background: "rgba(167, 139, 250, 0.12)",
+        shadow: "0 0 36px rgba(167, 139, 250, 0.18)",
+    },
+    {
+        border: "rgba(250, 204, 21, 0.55)",
+        background: "rgba(250, 204, 21, 0.12)",
+        shadow: "0 0 36px rgba(250, 204, 21, 0.18)",
+    },
+];
+
 export default function Home() {
-    const navigate = useNavigate();
-
-    // Desktop States
-    const [hoveredIdx, setHoveredIdx] = useState(null);
-
-    // Mobile States
-    const [activeMobileTarget, setActiveMobileTarget] = useState(null);
-    const [isDragging, setIsDragging] = useState(false);
-
-    // Desktop Mouse Tracking
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const { innerWidth, innerHeight } = window;
-        mouseX.set((clientX / innerWidth - 0.5) * 2);
-        mouseY.set((clientY / innerHeight - 0.5) * 2);
-    };
-
-    const springConfig = { damping: 25, stiffness: 150 };
-    const parallaxX = useSpring(useTransform(mouseX, [-1, 1], [-25, 25]), springConfig);
-    const parallaxY = useSpring(useTransform(mouseY, [-1, 1], [-25, 25]), springConfig);
-    const rayParallaxX = useSpring(useTransform(mouseX, [-1, 1], [-15, 15]), springConfig);
-    const rayParallaxY = useSpring(useTransform(mouseY, [-1, 1], [-15, 15]), springConfig);
-
-    // --- MOBILE DRAG LOGIC ---
-    const handleMobileDrag = (event, info) => {
-        const { x, y } = info.offset;
-        let foundIdx = null;
-
-        for (let i = 0; i < mobileTargets.length; i++) {
-            const target = mobileTargets[i];
-            const distance = Math.hypot(target.x - x, target.y - y);
-
-            // If within 50px threshold, light up the target!
-            if (distance < 50) {
-                foundIdx = i;
-                break;
-            }
-        }
-        setActiveMobileTarget(foundIdx);
-    };
-
-    const handleMobileDragEnd = () => {
-        setIsDragging(false);
-        if (activeMobileTarget !== null) {
-            navigate(mobileTargets[activeMobileTarget].path);
-        }
-    };
-
     return (
-        <motion.div
+        <Motion.section
             variants={pageVariants}
             initial="initial"
             animate="in"
             exit="out"
-            transition={{ duration: 0.5 }}
-            onMouseMove={handleMouseMove}
-            className="relative flex items-center justify-center w-full h-screen overflow-hidden"
+            transition={{ duration: 0.45 }}
+            className="relative min-h-screen overflow-hidden px-6 py-10 md:px-8 md:py-12"
         >
-            {/* 1. CENTRAL SUN CORE (Background Ambience) */}
-            <motion.div
-                style={{ x: parallaxX, y: parallaxY }}
-                className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full bg-yellow-300/10 blur-[100px] pointer-events-none z-0"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* 2. NAME & INSTRUCTION ELEMENT */}
-            <motion.div
-                style={{ x: parallaxX, y: parallaxY }}
-                className="z-20 absolute top-[10%] md:static md:top-auto flex flex-col items-center pointer-events-none w-full px-4"
-            >
-                <motion.h1
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 240, damping: 18 }}
-                    className="text-[2.75rem] md:text-6xl font-extrabold tracking-tight text-fuchsia-700 select-none drop-shadow-xl text-center md:ml-9 md:text-left"
+            <div className="mx-auto grid min-h-[calc(100vh-5rem)] w-full max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.9fr] lg:items-stretch">
+                <Motion.div
+                    initial={{ opacity: 0, x: -24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-slate-950/32 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.24)] backdrop-blur-2xl md:p-8"
                 >
-                    {resume.personal.name}
-                </motion.h1>
+                    <div className="absolute right-10 top-10 h-40 w-40 rounded-full bg-cyan-300/14 blur-[90px]" />
+                    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                        <div className="relative z-10">
+                            <div className="max-w-fit rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-cyan-100/85">
+                                ML / AI Engineer
+                            </div>
 
-                {/* MOBILE USER GUIDE - Centered under name, bold, and fades on drag */}
-                <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: isDragging ? 0 : 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: isDragging ? 0 : 0.5 }}
-                    className="md:hidden mt-4 flex flex-col items-center text-center"
+                            <h1
+                                className="mt-6 text-5xl font-semibold leading-[0.92] tracking-tight text-white md:text-6xl xl:text-7xl"
+                                style={{ fontFamily: "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif" }}
+                            >
+                                {resume.personal.name}
+                            </h1>
+
+                            <p className="mt-5 max-w-xl text-base leading-8 text-slate-100/88 md:text-lg">
+                                AI/ML engineer and software developer building practical intelligent systems,
+                                production-ready applications, and thoughtful user experiences.
+                            </p>
+
+                            <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/85">
+                                <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2">
+                                    {resume.personal.location}
+                                </div>
+                                <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2">
+                                    University at Buffalo
+                                </div>
+                                <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2">
+                                    AI, ML, Software Engineering
+                                </div>
+                            </div>
+
+                            <div className="mt-8 max-w-xl rounded-[1.5rem] border border-white/12 bg-white/5 p-5">
+                                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-cyan-100/80">
+                                    Overview
+                                </p>
+                                <p className="mt-3 text-sm leading-7 text-slate-200/80 md:text-[0.95rem]">
+                                    Explore the sections on the right to see my projects, experience, education,
+                                    technical strengths, and achievements in a clean portfolio format.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="relative z-10">
+                            <div className="rounded-[1.75rem] border border-white/15 bg-white/5 p-5">
+                                <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/30">
+                                    <img
+                                        src="/aditya-avatar.png"
+                                        alt="Illustrated avatar of Aditya Raj Singh"
+                                        className="aspect-[4/5] w-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Motion.div>
+
+                <Motion.aside
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+                    className="rounded-[2rem] border border-white/15 bg-slate-950/28 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.22)] backdrop-blur-2xl md:p-7"
                 >
-                    <p className="text-white text-xs font-bold uppercase tracking-[0.15em] drop-shadow-lg bg-black/20 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
-                        Drag the center core to a page
-                    </p>
-                    <motion.div
-                        animate={{ y: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="mt-2 text-fuchsia-400 text-sm drop-shadow-md"
-                    >
-                        ▼
-                    </motion.div>
-                </motion.div>
-            </motion.div>
+                    <div className="flex items-end justify-between gap-4">
+                        <div>
+                            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-cyan-100/80">
+                                Explore
+                            </p>
+                            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+                                Portfolio Sections
+                            </h2>
+                        </div>
+                        <div className="hidden rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold text-cyan-50 md:block">
+                            Click a card
+                        </div>
+                    </div>
 
-            {/* ========================================== */}
-            {/* 3. DESKTOP VIEW: SUNBURST (Hidden on Mobile) */}
-            {/* ========================================== */}
-            <motion.div
-                className="hidden md:block absolute inset-0 z-10 pointer-events-none"
-                style={{ x: rayParallaxX, y: rayParallaxY }}
-            >
-                {NAV.map((item, i) => {
-                    const angle = (360 / NAV.length) * i - 90;
-                    const rad = (angle * Math.PI) / 180;
-                    const x = RADIUS * Math.cos(rad) + OFFSET_X;
-                    const y = RADIUS * Math.sin(rad);
-                    const isHover = hoveredIdx === i;
-                    const activeColor = rayColors[i];
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                        {NAV.map((item, index) => {
+                            const meta = widgetMeta[item.path];
+                            const hoverStyle = widgetHoverStyles[index];
 
-                    return (
-                        <motion.div
-                            key={item.path}
-                            initial={{ x: 0, y: 0, opacity: 0 }}
-                            animate={{ x, y, opacity: 1 }}
-                            transition={{ delay: 0.6 + i * 0.08, type: "spring", stiffness: 120 }}
-                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
-                        >
-                            <motion.span
-                                className="absolute h-[2px] origin-left rounded-full transition-all duration-300"
-                                style={{
-                                    width: `${RAY_LEN}px`,
-                                    left: "50%",
-                                    top: "50%",
-                                    transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-                                    backgroundImage: isHover
-                                        ? `linear-gradient(to right, ${activeColor}, transparent)`
-                                        : `linear-gradient(to right, rgba(255,255,255,0.15), transparent)`,
-                                    boxShadow: isHover ? `0 0 15px ${activeColor}` : "none",
-                                }}
-                                initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-                                transition={{ delay: 0.6 + i * 0.08, duration: 0.45 }}
-                            />
-
-                            <motion.div
-                                whileHover={{ scale: 1.15 }}
-                                onHoverStart={() => setHoveredIdx(i)}
-                                onHoverEnd={() => setHoveredIdx(null)}
-                                className="relative group cursor-pointer"
-                            >
-                                <Link
-                                    to={item.path}
-                                    className="inline-block px-5 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 transition-all duration-300 text-sm md:text-base font-bold text-white overflow-hidden"
-                                    style={{
-                                        textShadow: isHover ? `0 0 10px ${activeColor}` : "0 2px 4px rgba(0,0,0,0.5)",
-                                        borderColor: isHover ? activeColor : "rgba(255,255,255,0.2)",
-                                        backgroundColor: isHover ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.1)",
-                                        boxShadow: isHover ? `0 0 25px ${activeColor.replace('1)', '0.4)')}` : "0 10px 15px rgba(0,0,0,0.2)",
-                                    }}
+                            return (
+                                <Motion.div
+                                    key={item.path}
+                                    initial={{ opacity: 0, y: 18 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.18 + index * 0.06, duration: 0.4 }}
                                 >
-                                    <span className="relative z-10">{item.label}</span>
-                                </Link>
-                            </motion.div>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
+                                    <Link
+                                        to={item.path}
+                                        className="group relative block h-full overflow-hidden rounded-[1.5rem] border border-white/12 bg-white/6 p-5 transition-all duration-300 hover:-translate-y-1"
+                                        style={{
+                                            boxShadow: "0 18px 40px rgba(15,23,42,0.1)",
+                                        }}
+                                    >
+                                        <div
+                                            className={`absolute inset-0 bg-gradient-to-br ${widgetColors[index]} opacity-70 transition-opacity duration-300 group-hover:opacity-100`}
+                                        />
+                                        <div
+                                            className="absolute inset-0 bg-slate-950/45 transition-all duration-300"
+                                        />
+                                        <div
+                                            className="absolute inset-0 opacity-0 transition-all duration-300 group-hover:opacity-100"
+                                            style={{
+                                                background: hoverStyle.background,
+                                                boxShadow: hoverStyle.shadow,
+                                            }}
+                                        />
 
-            {/* ========================================== */}
-            {/* 4. MOBILE VIEW: DRAG-TO-NAVIGATE HUD */}
-            {/* ========================================== */}
-            <div className="absolute inset-0 z-30 md:hidden flex flex-col items-center justify-center pt-10 overflow-hidden pointer-events-none">
-                <div className="relative w-full h-full flex items-center justify-center pointer-events-auto">
+                                        <div
+                                            className="absolute inset-0 rounded-[1.5rem] border opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                            style={{ borderColor: hoverStyle.border }}
+                                        />
 
-                    {/* A1. Independent Connecting Rays */}
-                    {mobileTargets.map((target, i) => {
-                        const isActive = activeMobileTarget === i;
-                        return (
-                            <div
-                                key={`ray-${i}`}
-                                className="absolute left-1/2 top-1/2 h-[1px] origin-left rounded-full transition-all duration-300 z-10 pointer-events-none"
-                                style={{
-                                    width: `${MOBILE_RADIUS - 45}px`,
-                                    transform: `translateY(-50%) rotate(${target.angle}deg) translateX(45px)`,
-                                    backgroundImage: isActive
-                                        ? `linear-gradient(to right, ${target.color}, transparent)`
-                                        : `linear-gradient(to right, rgba(255,255,255,0.1), transparent)`,
-                                    boxShadow: isActive ? `0 0 15px ${target.color}` : "none",
-                                }}
-                            />
-                        );
-                    })}
+                                        <div className="relative z-10 flex h-full flex-col">
+                                            <div className="flex items-center justify-between gap-3">
+                                                <span
+                                                    className="text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-cyan-100/80 transition-colors duration-300"
+                                                >
+                                                    {meta.eyebrow}
+                                                </span>
+                                                <span
+                                                    className="text-lg text-white/60 transition-transform duration-300 group-hover:translate-x-1"
+                                                    style={{ color: hoverStyle.border }}
+                                                >
+                                                    →
+                                                </span>
+                                            </div>
 
-                    {/* A2. The Orbiting Targets (Tabs) */}
-                    {mobileTargets.map((target, i) => {
-                        const isActive = activeMobileTarget === i;
-                        return (
-                            <motion.div
-                                key={target.path}
-                                className="absolute z-20 flex items-center justify-center"
-                                style={{ left: "50%", top: "50%" }}
-                                animate={{ x: `calc(-50% + ${target.x}px)`, y: `calc(-50% + ${target.y}px)` }}
-                                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                            >
-                                <motion.div
-                                    animate={{
-                                        scale: isActive ? 1.15 : 1,
-                                        backgroundColor: isActive ? target.color.replace('1)', '0.25)') : "rgba(255,255,255,0.05)",
-                                        borderColor: isActive ? target.color : "rgba(255,255,255,0.15)",
-                                        boxShadow: isActive ? `0 0 25px ${target.color}` : "0 0 0px transparent"
-                                    }}
-                                    className="px-3 py-1.5 rounded-full border backdrop-blur-md transition-colors duration-200"
-                                >
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white whitespace-nowrap drop-shadow-md">
-                                        {target.label}
-                                    </span>
-                                </motion.div>
-                            </motion.div>
-                        );
-                    })}
+                                            <h3 className="mt-4 text-xl font-semibold tracking-tight text-white transition-colors duration-300 group-hover:text-white">
+                                                {item.label}
+                                            </h3>
 
-                    {/* B. The Draggable Sun Core */}
-                    <motion.div
-                        drag
-                        dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                        dragElastic={1}
-                        onDragStart={() => setIsDragging(true)}
-                        onDrag={handleMobileDrag}
-                        onDragEnd={handleMobileDragEnd}
-                        whileDrag={{ scale: 0.9, cursor: "grabbing" }}
-                        className="absolute z-50 rounded-full flex items-center justify-center cursor-grab touch-none"
-                        style={{
-                            width: 80,
-                            height: 80,
-                            left: "calc(50% - 40px)",
-                            top: "calc(50% - 40px)",
-                            background: "radial-gradient(circle, rgba(236,72,153,0.9) 0%, rgba(139,92,246,0.8) 100%)",
-                            boxShadow: "0 0 30px rgba(236, 72, 153, 0.6), inset 0 0 15px rgba(255,255,255,0.4)",
-                        }}
-                    >
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="w-8 h-8 rounded-full border border-white/50 bg-white/20 backdrop-blur-sm flex items-center justify-center"
-                        >
-                            <span className="text-white/80 text-[10px] tracking-widest leading-none mt-[1px]">✦</span>
-                        </motion.div>
-                    </motion.div>
-
-                </div>
+                                            <p className="mt-3 text-sm leading-6 text-slate-200/80 transition-colors duration-300 group-hover:text-slate-100">
+                                                {meta.blurb}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </Motion.div>
+                            );
+                        })}
+                    </div>
+                </Motion.aside>
             </div>
-
-        </motion.div>
+        </Motion.section>
     );
 }

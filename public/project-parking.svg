@@ -1,0 +1,26 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#08141A"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="980" cy="178" r="132" fill="#22D3EE" fill-opacity="0.12"/>
+  <circle cx="248" cy="578" r="172" fill="#10B981" fill-opacity="0.08"/>
+  <rect x="114" y="136" width="496" height="420" rx="32" fill="#101E24" stroke="#67E8F9" stroke-opacity="0.22"/>
+  <rect x="150" y="170" width="424" height="352" rx="24" fill="#0A1418"/>
+  <path d="M214 206H510" stroke="#94A3B8" stroke-opacity="0.18" stroke-width="6" stroke-dasharray="14 12"/>
+  <path d="M214 270H510" stroke="#94A3B8" stroke-opacity="0.18" stroke-width="6" stroke-dasharray="14 12"/>
+  <path d="M214 334H510" stroke="#94A3B8" stroke-opacity="0.18" stroke-width="6" stroke-dasharray="14 12"/>
+  <rect x="244" y="230" width="78" height="46" rx="14" fill="#22D3EE" fill-opacity="0.22"/>
+  <rect x="382" y="356" width="82" height="48" rx="14" fill="#34D399" fill-opacity="0.2"/>
+  <rect x="662" y="154" width="362" height="182" rx="28" fill="#11242B" stroke="#67E8F9" stroke-opacity="0.24"/>
+  <rect x="698" y="196" width="164" height="22" rx="11" fill="#CFFAFE" fill-opacity="0.16"/>
+  <rect x="698" y="236" width="244" height="18" rx="9" fill="#CFFAFE" fill-opacity="0.1"/>
+  <rect x="662" y="374" width="362" height="150" rx="28" fill="#11242B" stroke="#6EE7B7" stroke-opacity="0.24"/>
+  <path d="M718 492C758 436 870 436 910 492" stroke="#6EE7B7" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>
+  <text x="114" y="612" fill="#ECFEFF" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="42" font-weight="700">Smart Parking AI</text>
+  <text x="114" y="652" fill="#67E8F9" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="26">Drone Imagery Analysis for Parking Logistics</text>
+  <defs>
+    <linearGradient id="bg" x1="84" y1="84" x2="1088" y2="628" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12242B"/>
+      <stop offset="1" stop-color="#09161B"/>
+    </linearGradient>
+  </defs>
+</svg>

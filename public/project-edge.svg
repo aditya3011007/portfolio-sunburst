@@ -1,0 +1,24 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="48" fill="#071313"/>
+  <rect x="56" y="56" width="1088" height="608" rx="36" fill="url(#bg)"/>
+  <circle cx="1000" cy="178" r="132" fill="#34D399" fill-opacity="0.14"/>
+  <circle cx="258" cy="580" r="170" fill="#22D3EE" fill-opacity="0.1"/>
+  <circle cx="614" cy="360" r="74" fill="#34D399" fill-opacity="0.12" stroke="#6EE7B7" stroke-opacity="0.22"/>
+  <circle cx="330" cy="212" r="58" fill="#0F2B2B" stroke="#2DD4BF" stroke-opacity="0.35"/>
+  <circle cx="910" cy="218" r="58" fill="#0F2B2B" stroke="#2DD4BF" stroke-opacity="0.35"/>
+  <circle cx="314" cy="520" r="58" fill="#0F2B2B" stroke="#2DD4BF" stroke-opacity="0.35"/>
+  <circle cx="922" cy="516" r="58" fill="#0F2B2B" stroke="#2DD4BF" stroke-opacity="0.35"/>
+  <path d="M384 232L548 324" stroke="#6EE7B7" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M852 236L686 324" stroke="#6EE7B7" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M372 500L548 396" stroke="#6EE7B7" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M850 498L682 396" stroke="#6EE7B7" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
+  <rect x="498" y="330" width="232" height="60" rx="22" fill="#34D399" fill-opacity="0.18" stroke="#6EE7B7" stroke-opacity="0.3"/>
+  <text x="116" y="612" fill="#ECFDF5" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="42" font-weight="700">Distributed Edge Computing</text>
+  <text x="116" y="652" fill="#6EE7B7" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="26">Federated Cost Optimization System</text>
+  <defs>
+    <linearGradient id="bg" x1="84" y1="84" x2="1088" y2="628" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E2020"/>
+      <stop offset="1" stop-color="#081415"/>
+    </linearGradient>
+  </defs>
+</svg>
